@@ -6,7 +6,7 @@ const os = require('os');
   
 const options = {
     port: 4000,
-    //host: '127.0.0.1'
+    host: '10.4.75.195'
 }
 
 const client = net.createConnection(options)
