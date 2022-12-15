@@ -4,9 +4,11 @@ const express = require('express');
 const app = express();
 const os = require('os');
   
+//var ipServer= obtainIp().toString();
+//console.log(ipServer);
 const options = {
     port: 4000,
-    host: '10.4.75.195'
+    host: obtainIp()
 }
 
 const client = net.createConnection(options)
@@ -17,7 +19,7 @@ client.on('connect', ()=>{
 })
 
 client.on('data', (data)=>{
-    console.log('El servidor dice:' + data)
+    console.log('El servidor dice:\n' + data)
     sendLine()
 })
 
@@ -25,6 +27,11 @@ client.on('error', (err)=>{
     console.log(err.message)
 })
 
+function obtainIp(){
+    var line;
+   line = +readline.question('\nDigite la ip del servidor:\t') 
+   return line;
+}
 //var file_json={"name":hostname, "hora":now,"message": message};
 
 function sendLine() {
@@ -39,6 +46,9 @@ var now=today.toLocaleString();
     }else{
         var file_json={"name":hostname, "fecha": today,"hora":today.getHours(),"minutos":today.getMinutes(),
         "segundos":today.getSeconds(),"milisegundos":today.getMilliseconds(),"message": line};
-        client.write(JSON.stringify(file_json))
+        client.write(JSON.stringify(file_json));
+        var actData = client.read();
+        console.log(actData);
+       // console.log("\n"+client.read());
     }
 }
